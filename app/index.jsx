@@ -18,12 +18,13 @@ import Octicons from "@expo/vector-icons/Octicons";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar } from "expo-status-bar";
+import { useRouter } from "expo-router";
 
 const Index = () => {
   const [todos, setTodos] = useState([]);
-
   const [text, setText] = useState("");
   const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,15 +68,21 @@ const Index = () => {
       : null;
   };
 
+  const handlePress = (id) => {
+    router.push(`todos/${id}`);
+  };
+
   // Render
   const renderItem = ({ item }) => (
     <View style={styles.todoItem}>
-      <Text
-        style={[styles.todoText, item.completed && styles.completedText]}
-        onPress={() => toggleTodo(item.id)}
+      <Pressable
+        onPress={() => handlePress(item.id)}
+        onLongPress={() => toggleTodo(item.id)}
       >
-        {item.title}
-      </Text>
+        <Text style={[styles.todoText, item.completed && styles.completedText]}>
+          {item.title}
+        </Text>
+      </Pressable>
       <Pressable style={styles.todoButton} onPress={() => removeTodo(item.id)}>
         <MaterialCommunityIcons
           name="delete-circle"
@@ -106,6 +113,7 @@ const Index = () => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
+          maxLength={30}
           placeholder="Add new Todo..."
           placeholderTextColor="gray"
           value={text}
