@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "estate-native-app",
-    "slug": "estate-native-app",
+    "name": "crud-native-app",
+    "slug": "crud-native-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
